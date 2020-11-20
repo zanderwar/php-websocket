@@ -15,6 +15,8 @@ in PHP. It includes a server as well as a client. This implementation is optimal
 learn something. As soon as you want to create a full featured websocket based application you might want to switch
 to more sophisticated solution.
 
+> Note: This package does not support SSL/WSS
+
 ## Installation
 
 Clone or download the repository to your server. The package is also installable via composer running the following
