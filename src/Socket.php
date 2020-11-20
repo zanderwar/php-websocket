@@ -21,25 +21,36 @@ class Socket
      */
     protected $context = null;
 
-    public function __construct(string $host = 'localhost', int $port = 8000)
+    protected $protocol = null;
+    protected $host = null;
+    protected $port = null;
+
+    public function __construct(string $host = 'localhost', int $port = 8000, string $protocol = 'tcp')
     {
-        ob_implicit_flush(1);
-        $this->createSocket($host, $port);
+    	$this->setStreamContext();
+
+    	$this->protocol = $protocol;
+		$this->host = $host;
+		$this->port = $port;
     }
+
+	public function setStreamContext(array $options = [], array $params = []): void
+	{
+		$this->context = stream_context_create($options, $params);
+	}
 
     /**
      * Create a socket on given host/port
      *
-     * @param string $host The host/bind address to use
-     * @param int $port The actual port to bind on
      * @throws \RuntimeException
      * @return void
      */
-    private function createSocket(string $host, int $port): void
+    public function createSocket(): void
     {
-        $protocol = 'tcp://';
-        $url = $protocol . $host . ':' . $port;
-        $this->context = stream_context_create();
+		ob_implicit_flush(1);
+
+        $url = $this->protocol . '://' . $this->host . ':' . $this->port;
+
         $this->master = stream_socket_server(
             $url,
             $errno,
@@ -47,6 +58,7 @@ class Socket
             STREAM_SERVER_BIND | STREAM_SERVER_LISTEN,
             $this->context
         );
+
         if ($this->master === false) {
             throw new \RuntimeException('Error creating socket: ' . $err);
         }

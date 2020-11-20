@@ -12,6 +12,15 @@ require __DIR__ . '/../src/Application/DemoApplication.php';
 require __DIR__ . '/../src/Application/StatusApplication.php';
 
 $server = new \Bloatless\WebSocket\Server('127.0.0.1', 8000);
+//$server->setStreamContext([
+//	'ssl' => [
+//		'local_cert' => "/path/to/cert",
+//		'verify_peer_name' => false,
+//		'verify_peer' => false,
+//		'cipher' => 'ALL'
+//	]
+//]);
+$server->createSocket();
 
 // server settings:
 $server->setMaxClients(100);

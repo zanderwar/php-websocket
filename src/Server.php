@@ -65,13 +65,14 @@ class Server extends Socket
      */
     private $timers;
 
-    /**
-     * @param string $host
-     * @param int $port
-     */
-    public function __construct($host = 'localhost', $port = 8000)
+	/**
+	 * @param string $host
+	 * @param int $port
+	 * @param string $protocol
+	 */
+    public function __construct($host = 'localhost', $port = 8000, string $protocol = 'tcp')
     {
-        parent::__construct($host, $port);
+        parent::__construct($host, $port, $protocol);
         $this->log('Server created');
         $this->timers = new TimerCollection();
     }
